@@ -1,0 +1,22 @@
+services:
+    db:
+        container_name: blogna-db
+        restart: unless-stopped
+        environment:
+            POSTGRES_USER: blogna
+            POSTGRES_PASSWORD: passthebologna
+            POSTGRES_DB: blogna_db
+        build:
+            context: .
+            dockerfile: ./docker/db/Dockerfile
+        command: >
+            -c ssl=on
+            -c ssl_cert_file=/var/lib/postgresql/server.crt
+            -c ssl_key_file=/var/lib/postgresql/server.key
+        healthcheck:
+            test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+            interval: 10s
+            timeout: 5s
+            retries: 5
+        ports:
+            - "5432:5432"
