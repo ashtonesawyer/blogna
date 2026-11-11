@@ -1,6 +1,7 @@
 # B'logna
 
 ## DB
+
 For ease of reuse, we have the database set up running in a docker container. You can start the container with
 
 ```
@@ -18,4 +19,3 @@ To tear down the database, run the following
 ```
  $ docker compose down
 ```
-

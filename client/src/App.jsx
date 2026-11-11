@@ -1,9 +1,9 @@
-import "./App.css";
-import Hero from "./components/Hero";
-import Navbar from "./components/Navbar";
-import PostPreview from "./components/PostPreview";
-import SearchBar from "./components/SearchBar";
-import Sidebar from "./components/Sidebar";
+import './App.css';
+import Hero from './components/Hero';
+import Navbar from './components/Navbar';
+import PostPreview from './components/PostPreview';
+import SearchBar from './components/SearchBar';
+import Sidebar from './components/Sidebar';
 
 function App() {
   return (
