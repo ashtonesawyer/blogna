@@ -1,7 +1,7 @@
 import "./App.css";
 import Hero from "./components/Hero";
 import Navbar from "./components/Navbar";
-import PostCard from "./components/PostCard";
+import PostPreview from "./components/PostPreview";
 import SearchBar from "./components/SearchBar";
 import Sidebar from "./components/Sidebar";
 
@@ -23,14 +23,14 @@ function App() {
 
           <div className="content">
             {/* For the PostCards, these are placeholders. We will update to retrieve information from the backend. */}
-            <PostCard
+            <PostPreview
               author="Ryan Gosling"
               date="November 1, 2026"
               title="Life may be a beach, but YOU are KENOUGH"
               description="Ways to take your mind of heartbreak, and embrace beach..."
             />
 
-            <PostCard
+            <PostPreview
               author="Ryan Gosling"
               date="November 1, 2026"
               title="Life may be a beach, but YOU are KENOUGH"

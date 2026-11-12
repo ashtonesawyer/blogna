@@ -1,14 +1,18 @@
 function Navbar() {
   return (
-    <header>
-      <h1>B'logna</h1>
-
-      <nav>
-        <a href="/">Discover</a>
-        <a href="/write">Write a post</a>
-        <a href="/login">Sign in</a>
-      </nav>
-    </header>
+    <nav>
+      <ul>
+        <li>
+          <a href="/">Discover</a>
+        </li>
+        <li>
+          <a href="/write">Write a post</a>
+        </li>
+        <li>
+          <a href="/login">Sign in</a>
+        </li>
+      </ul>
+    </nav>
   );
 }
 
