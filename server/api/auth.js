@@ -3,19 +3,19 @@ import { Router } from 'express';
 const router = Router();
 
 router.post('/register', (req, res) => {
-    return res.json({msg: 'todo: create an account'})
-})
+  return res.json({ msg: 'todo: create an account' });
+});
 
 router.post('/login', (req, res) => {
-    return res.json({msg: 'todo: login to an account'})
-})
+  return res.json({ msg: 'todo: login to an account' });
+});
 
 router.post('/logout', (req, res) => {
-    return res.json({msg: 'todo: log out of logged in account'})
-})
+  return res.json({ msg: 'todo: log out of logged in account' });
+});
 
 router.get('/me', (req, res) => {
-    return res.json({msg: 'todo: return details about logged in user'})
-})
+  return res.json({ msg: 'todo: return details about logged in user' });
+});
 
-export default router
+export default router;
