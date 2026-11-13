@@ -12,6 +12,6 @@ const SearchBar = function SearchBar() {
       />
     </form>
   );
-}
+};
 
 export default SearchBar;

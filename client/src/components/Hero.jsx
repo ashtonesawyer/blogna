@@ -9,6 +9,6 @@ const Hero = function Hero() {
       </p>
     </section>
   );
-}
+};
 
 export default Hero;

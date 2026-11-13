@@ -6,6 +6,6 @@ const Sidebar = function Sidebar() {
       <p>Sign in to publish and join the conversation.</p>
     </aside>
   );
-}
+};
 
 export default Sidebar;
