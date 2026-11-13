@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-const router = Router();
+const router = new Router();
 
 router.patch('/:id', (req, res) => {
   return res.json({ msg: 'todo: edit one comment by id' });

@@ -1,4 +1,4 @@
-function PostCard({ author, date, title, description }) {
+const PostPreview = function PostPreview({ author, date, title, description }) {
   return (
     <article className="post-card">
       <p>{author}</p>
@@ -8,6 +8,6 @@ function PostCard({ author, date, title, description }) {
       <a href="#">Read post</a>
     </article>
   );
-}
+};
 
-export default PostCard;
+export default PostPreview;

@@ -1,6 +1,6 @@
 import { Router } from 'express';
 
-const router = Router();
+const router = new Router();
 
 router.post('/register', (req, res) => {
   return res.json({ msg: 'todo: create an account' });

@@ -1,4 +1,4 @@
-function Hero() {
+const Hero = function Hero() {
   return (
     <section id="hero">
       <p>THE B'LOGNA COMMUNITY</p>
@@ -9,6 +9,6 @@ function Hero() {
       </p>
     </section>
   );
-}
+};
 
 export default Hero;
