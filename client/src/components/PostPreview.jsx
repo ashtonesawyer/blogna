@@ -8,6 +8,6 @@ const PostPreview = function PostPreview({ author, date, title, description }) {
       <a href="#">Read post</a>
     </article>
   );
-}
+};
 
 export default PostPreview;

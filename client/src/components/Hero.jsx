@@ -25,6 +25,6 @@ const Hero = function Hero() {
       </div>
     </section>
   );
-}
+};
 
 export default Hero;

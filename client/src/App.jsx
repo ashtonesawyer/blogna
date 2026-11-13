@@ -43,6 +43,6 @@ const App = function App() {
       </main>
     </>
   );
-}
+};
 
 export default App;
