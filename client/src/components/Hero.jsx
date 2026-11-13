@@ -14,7 +14,7 @@ function Hero() {
           sharing.
         </p>
       </div>
-      
+
       {/* The paper illustration is decorative. */}
       <div className="hero-note" aria-hidden="true">
         <p>
