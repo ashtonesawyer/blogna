@@ -1,4 +1,4 @@
-function Sidebar() {
+const Sidebar = function Sidebar() {
   return (
     <aside id="sidebar">
       <h3>New here?</h3>

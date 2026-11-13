@@ -1,4 +1,4 @@
-function Navbar() {
+const Navbar = function Navbar() {
   return (
     <nav>
       <ul>
