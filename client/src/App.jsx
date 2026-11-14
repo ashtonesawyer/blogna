@@ -21,7 +21,6 @@ const App = function App() {
       </>
     );
   }
-
   return (
     <>
       {/* For header + links */}

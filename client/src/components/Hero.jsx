@@ -1,5 +1,5 @@
 /* Paper illustration for no additional need of img file. */
-function Hero() {
+const Hero = function Hero() {
   return (
     <section id="hero" aria-labelledby="hero-title">
       <div>
@@ -25,6 +25,6 @@ function Hero() {
       </div>
     </section>
   );
-}
+};
 
 export default Hero;
