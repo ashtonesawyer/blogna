@@ -19,3 +19,19 @@ To tear down the database, run the following
 ```
  $ docker compose down
 ```
+
+## Migrations
+
+We are using `Knex.js` to handle migrations.
+
+## Environment Variables
+
+In order to connect to the db, set up a `.env` file. Never commit this file. The example below is set
+up with the default credentials for the docker set up:
+
+```
+DB_USER=blogna
+DB_NAME=blogna_db
+DB_HOST=localhost
+DB_PASSWORD=passthebologna
+```
