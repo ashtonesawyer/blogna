@@ -22,9 +22,26 @@ To tear down the database, run the following
 
 ## Migrations
 
-We are using `Knex.js` to handle migrations.
+We are set up to use Knexjs for database migrations (and seeding). It is currently
+configured to run migrations on whatever database is configured in your `.env` file.
 
-## Environment Variables
+The Knex docs are fairly in depth, but can be a little annoying to navigate.
+These are the two sections that are likely the most useful.
+
+- [Migration Syntax Docs](https://knexjs.org/guide/schema-builder.html)
+- [Migration + Seed CLI Docs](https://knexjs.org/guide/migrations.html)
+
+### Useful Commands
+
+- `npm run migrate:make <name>` to create a template file for your new migration
+- `npm run migrate:latest` to run all migrations that have not yet run
+- `npm run migrate:rollback` to rollback the latest batch of migrations
+- `npm run seed:make <name>` to create a new template seed file
+- `npm run seed:run` to run all seed files (can add more arguments to run only select files)
+
+---
+
+## `.env` File
 
 In order to connect to the db, set up a `.env` file. Never commit this file. The example below is set
 up with the default credentials for the docker set up:
