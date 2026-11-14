@@ -6,7 +6,7 @@ import SearchBar from './components/SearchBar';
 import Sidebar from './components/Sidebar';
 import WritePost from './components/WritePost';
 
-function App() {
+const App = function App() {
   // get URL path
   const page = window.location.pathname;
 
@@ -59,6 +59,6 @@ function App() {
       </main>
     </>
   );
-}
+};
 
 export default App;

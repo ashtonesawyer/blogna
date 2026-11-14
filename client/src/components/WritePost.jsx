@@ -3,7 +3,7 @@ import { useState } from 'react';
 // main function for creating/editing post
 //    post: existing post info to edit, null for new
 //    onSave: func passed from parent to save post info (for future backend)
-function WritePost({ post = null, onSave }) {
+const WritePost = function WritePost({ post = null, onSave }) {
   // store title/content of post OR use existing info for editing
   const [title, setTitle] = useState(post?.title ?? '');
   const [content, setContent] = useState(post?.content ?? '');
@@ -13,7 +13,7 @@ function WritePost({ post = null, onSave }) {
   const isEditing = post !== null;
 
   // Handle publishing or editing a post
-  function handlePublish() {
+  const handlePublish = function handlePublish() {
     // Make sure the title and content are not empty
     if (title.trim() === '' || content.trim() === '') {
       setError('Please enter a title and content before publishing.');
@@ -32,7 +32,7 @@ function WritePost({ post = null, onSave }) {
     if (onSave) {
       onSave(postData);
     }
-  }
+  };
 
   return (
     <div className="container mt-4">
@@ -81,6 +81,6 @@ function WritePost({ post = null, onSave }) {
       </button>
     </div>
   );
-}
+};
 
 export default WritePost;
