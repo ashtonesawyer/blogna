@@ -4,8 +4,23 @@ import Navbar from './components/Navbar';
 import PostPreview from './components/PostPreview';
 import SearchBar from './components/SearchBar';
 import Sidebar from './components/Sidebar';
+import WritePost from './components/WritePost';
 
 const App = function App() {
+  // get URL path
+  const page = window.location.pathname;
+
+  // get writing page if url path /write
+  if (page === '/write') {
+    return (
+      <>
+        <Navbar />
+        <main>
+          <WritePost />
+        </main>
+      </>
+    );
+  }
   return (
     <>
       {/* For header + links */}
