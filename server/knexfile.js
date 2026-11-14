@@ -1,6 +1,6 @@
 import * as dotenv from 'dotenv';
 
-dotenv.config()
+dotenv.config();
 
 /**
  * @type { Object.<string, import("knex").Knex.Config> }

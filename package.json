@@ -15,7 +15,10 @@
     "migrate:latest": "npm run migrate:latest --workspace=server",
     "migrate:rollback": "npm run migrate:rollback --workspace=server",
     "seed:make": "npm run seed:make --workspace=server",
-    "seed:run": "npm run seed:run --workspace=server"
+    "seed:run": "npm run seed:run --workspace=server",
+    "fmt": "npx prettier --check .",
+    "fmt:fix": "npx prettier --write .",
+    "lint": "npx eslint ."
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
