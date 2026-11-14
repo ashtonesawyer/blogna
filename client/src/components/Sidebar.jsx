@@ -1,5 +1,5 @@
 /* Green writing inviation and registration section below */
-function Sidebar() {
+const Sidebar = function Sidebar() {
   return (
     <aside id="sidebar" aria-label="Join the community">
       <section className="write-callout" aria-labelledby="write-title">
@@ -17,6 +17,6 @@ function Sidebar() {
       </section>
     </aside>
   );
-}
+};
 
 export default Sidebar;

@@ -1,4 +1,4 @@
-function SearchBar() {
+const SearchBar = function SearchBar() {
   return (
     <form className="search-bar">
       <label htmlFor="search" className="form-label">
@@ -12,6 +12,6 @@ function SearchBar() {
       />
     </form>
   );
-}
+};
 
 export default SearchBar;
