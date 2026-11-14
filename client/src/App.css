@@ -1,182 +1,308 @@
-.counter {
-  font-size: 16px;
-  padding: 5px 10px;
-  border-radius: 5px;
-  color: var(--accent);
-  background: var(--accent-bg);
-  border: 2px solid transparent;
-  transition: border-color 0.3s;
-  margin-bottom: 24px;
+/*
+Align the header and page content to the same edges. 
 
-  &:hover {
-    border-color: var(--accent-border);
-  }
-  &:focus-visible {
-    outline: 2px solid var(--accent);
-    outline-offset: 2px;
-  }
+Chosen minimum = 1200px 
+Narrow screens = subtract 48px = 24px guter on each side
+
+Inline margins center the containers whilst text stays left aligned
+*/
+.site-nav,
+main {
+  width: min(1200px, calc(100% - 48px));
+  margin-inline: auto;
 }
 
-.hero {
-  position: relative;
-
-  .base,
-  .framework,
-  .vite {
-    inset-inline: 0;
-    margin: 0 auto;
-  }
-
-  .base {
-    width: 170px;
-    position: relative;
-    z-index: 0;
-  }
-
-  .framework,
-  .vite {
-    position: absolute;
-  }
-
-  .framework {
-    z-index: 1;
-    top: 34px;
-    height: 28px;
-    transform: perspective(2000px) rotateZ(300deg) rotateX(44deg) rotateY(39deg) scale(1.4);
-  }
-
-  .vite {
-    z-index: 0;
-    top: 107px;
-    height: 26px;
-    width: auto;
-    transform: perspective(2000px) rotateZ(300deg) rotateX(40deg) rotateY(39deg) scale(0.8);
-  }
+.site-header {
+  border-bottom: 1px solid var(--border);
 }
 
-#center {
+.site-nav {
   display: flex;
-  flex-direction: column;
-  gap: 25px;
-  place-content: center;
-  place-items: center;
-  flex-grow: 1;
-
-  @media (max-width: 1024px) {
-    padding: 32px 20px 24px;
-    gap: 18px;
-  }
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  min-height: 90px;
 }
 
-#next-steps {
+.brand {
+  font:
+    700 2.5rem Georgia,
+    serif;
+}
+
+.nav-links {
   display: flex;
-  border-top: 1px solid var(--border);
-  text-align: left;
-
-  & > div {
-    flex: 1 1 0;
-    padding: 32px;
-    @media (max-width: 1024px) {
-      padding: 24px 20px;
-    }
-  }
-
-  .icon {
-    margin-bottom: 16px;
-    width: 22px;
-    height: 22px;
-  }
-
-  @media (max-width: 1024px) {
-    flex-direction: column;
-    text-align: center;
-  }
-}
-
-#docs {
-  border-right: 1px solid var(--border);
-
-  @media (max-width: 1024px) {
-    border-right: none;
-    border-bottom: 1px solid var(--border);
-  }
-}
-
-#next-steps ul {
-  list-style: none;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 32px;
+  margin: 0;
   padding: 0;
-  display: flex;
-  gap: 8px;
-  margin: 32px 0 0;
-
-  .logo {
-    height: 18px;
-  }
-
-  a {
-    color: var(--text-h);
-    font-size: 16px;
-    border-radius: 6px;
-    background: var(--social-bg);
-    display: flex;
-    padding: 6px 12px;
-    align-items: center;
-    gap: 8px;
-    text-decoration: none;
-    transition: box-shadow 0.3s;
-
-    &:hover {
-      box-shadow: var(--shadow);
-    }
-    .button-icon {
-      height: 18px;
-      width: 18px;
-    }
-  }
-
-  @media (max-width: 1024px) {
-    margin-top: 20px;
-    flex-wrap: wrap;
-    justify-content: center;
-
-    li {
-      flex: 1 1 calc(50% - 8px);
-    }
-
-    a {
-      width: 100%;
-      justify-content: center;
-      box-sizing: border-box;
-    }
-  }
+  list-style: none;
+  font-weight: 700;
 }
 
-#spacer {
-  height: 88px;
-  border-top: 1px solid var(--border);
-  @media (max-width: 1024px) {
-    height: 48px;
-  }
+.blogna-button {
+  display: inline-flex;
+  justify-content: center;
+  padding: 12px 24px;
+  border-radius: 8px;
+  background: var(--forest);
+  color: var(--surface);
+  font-weight: 700;
+  text-align: center;
 }
 
-.ticks {
+.blogna-button:hover {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+main {
+  padding-bottom: 64px;
+}
+
+#hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.6fr) minmax(260px, 1fr);
+  align-items: center;
+  gap: 64px;
+  padding-block: 64px;
+}
+
+.hero-eyebrow {
+  margin-bottom: 24px;
+  color: var(--forest);
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+#hero h1 {
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  line-height: 1.1;
+}
+
+.hero-description {
+  max-width: 620px;
+  margin-top: 24px;
+  color: var(--muted);
+  font-size: 1.125rem;
+}
+
+/* 
+Stacked paper illustration:
+(i)   White background forms the front sheet
+(ii)  Two solid, unblurred shadows create offset sheets behind
+(iii) Slight roation = angled appearance
+
+Relative positioning anchors the decor lines and orange circle
+near top right corner.
+
+Bottom padding = reserve room for writing lines
+*/
+.hero-note {
   position: relative;
+  min-height: 240px;
+  padding: 32px 48px 64px 28px;
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  background: var(--surface);
+  box-shadow:
+    12px 12px 0 #d0ddc9,
+    -12px -12px 0 var(--sage);
+  transform: rotate(4deg);
+}
+
+.hero-note p {
+  color: var(--forest);
+  font:
+    2rem/1.4 Georgia,
+    serif;
+}
+
+.hero-note::before {
+  position: absolute;
+  right: 28px;
+  bottom: 28px;
+  left: 28px;
+  height: 18px;
+  border-block: 2px solid #d0ddc9;
+  content: '';
+}
+
+/* 
+Orange accent near the top-right corner 
+Equal dimensions and 50% boarder radius from the circle
+*/
+.hero-note::after {
+  position: absolute;
+  top: 28px;
+  right: 24px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: #c97048;
+  content: '';
+}
+
+.stories-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 24px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.stories-header h2 {
+  font-size: 2rem;
+}
+
+.search-bar {
+  width: min(100%, 420px);
+}
+
+.search-bar label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 0.875rem;
+}
+
+.search-bar input {
   width: 100%;
+  padding: 12px 16px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--heading);
+}
 
-  &::before,
-  &::after {
-    content: '';
-    position: absolute;
-    top: -4.5px;
-    border: 5px solid transparent;
+/* Position the two existing post cards beside the sidebar. */
+.content {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  align-items: start;
+  gap: 24px 32px;
+}
+
+.post-card {
+  grid-column: 1;
+  min-width: 0;
+  padding: 28px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--surface);
+}
+
+.post-card > p:first-of-type {
+  font-weight: 700;
+}
+
+.post-card > p:nth-of-type(2) {
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+
+.post-card h3 {
+  margin-block: 20px 12px;
+  font-size: clamp(1.5rem, 2.2vw, 2rem);
+  line-height: 1.25;
+}
+
+.post-card > p:last-of-type {
+  color: var(--muted);
+}
+
+/* Keep preview description visually secondary to story title */
+.post-card > a {
+  display: inline-block;
+  margin-top: 16px;
+  font-weight: 700;
+}
+
+#sidebar {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+}
+
+.write-callout {
+  padding: 28px;
+  border-radius: 16px;
+  background: var(--forest);
+  color: var(--sage);
+}
+
+.write-callout h3 {
+  margin-bottom: 20px;
+  color: var(--surface);
+  font-size: 2.25rem;
+  line-height: 1.2;
+}
+
+.write-callout .blogna-button {
+  margin-top: 24px;
+  background: var(--surface);
+  color: var(--forest);
+}
+
+.signup-callout {
+  margin-top: 28px;
+}
+
+.signup-callout h3 {
+  margin-bottom: 12px;
+  font:
+    700 1.125rem Arial,
+    sans-serif;
+}
+
+.signup-callout a {
+  font-weight: 700;
+}
+
+.signup-callout p {
+  margin-top: 12px;
+  color: var(--muted);
+}
+
+/* Stack the columns when the available space becomes too narrow. */
+@media (max-width: 800px) {
+  .site-nav {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: 16px;
+    padding-block: 20px;
   }
 
-  &::before {
-    left: 0;
-    border-left-color: var(--border);
+  #hero,
+  .content {
+    grid-template-columns: minmax(0, 1fr);
   }
-  &::after {
-    right: 0;
-    border-right-color: var(--border);
+
+  #hero {
+    gap: 32px;
+    padding-block: 40px;
+  }
+
+  .hero-note {
+    width: 100%;
+    max-width: 420px;
+    transform: none;
+  }
+
+  .stories-header {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .search-bar {
+    width: 100%;
+  }
+
+  #sidebar {
+    grid-column: auto;
+    grid-row: auto;
   }
 }
