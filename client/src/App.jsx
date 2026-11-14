@@ -5,7 +5,7 @@ import PostPreview from './components/PostPreview';
 import SearchBar from './components/SearchBar';
 import Sidebar from './components/Sidebar';
 
-function App() {
+const App = function App() {
   return (
     <>
       {/* For header + links */}
@@ -43,6 +43,6 @@ function App() {
       </main>
     </>
   );
-}
+};
 
 export default App;

@@ -2,7 +2,7 @@
 Provide the B'logna branding in addition to classes needed for 
 horizontal naviagation. 
 */
-function Navbar() {
+const Navbar = function Navbar() {
   return (
     <header className="site-header">
       <nav className="site-nav" aria-label="Main navigation">
@@ -26,6 +26,6 @@ function Navbar() {
       </nav>
     </header>
   );
-}
+};
 
 export default Navbar;
