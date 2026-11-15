@@ -1,26 +1,24 @@
 import { Router } from 'express';
+import { matchedData } from 'express-validator';
 import * as argon2 from 'argon2';
 import db from '../db.js';
+import validate from '../middleware/validator.js';
+import { registerRules } from '../middleware/authRules.js';
 
 const router = new Router();
 
-router.post('/register', async (req, res) => {
-  if (!req.body || !req.body.email || !req.body.password) {
-    return res.status(400).json({ error: 'email and password are required' });
-  }
-
-  const { email, password, fullname } = req.body;
-
-  const exists = await db('users').select('id').where('email', email.toLowerCase().trim()).first();
-  if (exists) {
-    return res.status(409).json({ error: 'email already in use' });
-  }
+router.post('/register', registerRules, validate, async (req, res) => {
+  const { email, password, fullname } = matchedData(req);
 
   const hash = await argon2.hash(password);
+  
+  try {
+    await db('users').insert({email, 'passwd_hash': hash, fullname});
+  } catch(err) {
+    console.log(err);
+  }
 
-  await db('users').insert({email, 'passwd_hash': hash, fullname});
-
-  return res.json({ msg: 'todo: create an account' });
+  return res.status(201).json({ msg: 'user registered' });
 });
 
 router.post('/login', (req, res) => {
