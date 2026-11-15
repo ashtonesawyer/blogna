@@ -12,6 +12,7 @@
     "seed:run": "npx knex --knexfile knexfile.js seed:run"
   },
   "dependencies": {
+    "argon2": "^0.45.2",
     "cors": "^2.8.6",
     "dotenv": "^18.0.10",
     "express": "^5.3.0",

@@ -4,6 +4,7 @@ import router from './api/api.js';
 const app = express();
 const PORT = process.env.PORT || 3001;
 
+app.use(express.json());
 app.use('/api', router);
 
 app.use((_req, res) => {
