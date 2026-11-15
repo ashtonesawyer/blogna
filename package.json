@@ -10,7 +10,15 @@
     "dev": "npm run dev --workspace=client",
     "dev:server": "npm run dev --workspace=server",
     "dev:all": "concurrently \"npm run dev\" \"npm run dev:server\"",
-    "test": "NODE_OPTIONS=--experimental-vm-modules jest"
+    "test": "NODE_OPTIONS=--experimental-vm-modules jest",
+    "migrate:make": "npm run migrate:make --workspace=server",
+    "migrate:latest": "npm run migrate:latest --workspace=server",
+    "migrate:rollback": "npm run migrate:rollback --workspace=server",
+    "seed:make": "npm run seed:make --workspace=server",
+    "seed:run": "npm run seed:run --workspace=server",
+    "fmt": "npx prettier --check .",
+    "fmt:fix": "npx prettier --write .",
+    "lint": "npx eslint ."
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
