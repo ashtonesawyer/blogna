@@ -52,3 +52,19 @@ DB_NAME=blogna_db
 DB_HOST=localhost
 DB_PASSWORD=passthebologna
 ```
+
+## JWT Secrets
+
+Generate a secret using the following command:
+
+```
+ $ openssl rand -hex 64
+```
+
+Add this secret to your `.env` file:
+
+```
+JWT_SECRET=<gen'd code>
+```
+
+This is the code that will be used to sign the JWTs.

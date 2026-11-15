@@ -1,12 +1,22 @@
 import { Router } from 'express';
 import { matchedData } from 'express-validator';
+import jwt from 'jsonwebtoken';
 import * as argon2 from 'argon2';
+import * as dotenv from 'dotenv';
 import db from '../db.js';
 import validate from '../middleware/validator.js';
 import { registerRules, loginRules } from '../middleware/authRules.js';
 
 const router = new Router();
+
+dotenv.config();
+
 const DUMMY_HASH = argon2.hash('nope');
+const { JWT_SECRET } = process.env; 
+
+if (!JWT_SECRET) {
+  throw new Error('JWT secret not configured');
+}
 
 router.post('/register', registerRules, validate, async (req, res) => {
   const { email, password, fullname } = matchedData(req);
@@ -25,13 +35,29 @@ router.post('/register', registerRules, validate, async (req, res) => {
 router.post('/login', loginRules, validate, async (req, res) => {
   const { email, password } = matchedData(req);
 
-  const user = await db('users').select('passwd_hash').where({email}).first();
+  const user = await db('users').select('id', 'passwd_hash').where({email}).first();
   const hash = user?.passwd_hash ?? DUMMY_HASH;
-  const authd = await argon2.verify(hash ?? '', password);
+  const authd = await argon2.verify(hash, password);
 
   if (authd && user) {
-    // todo: handle cookies + session things
-    return res.json({ msg: 'todo: login to an account' });
+    const token = jwt.sign(
+      {},
+      JWT_SECRET,
+      {
+        subject: user.id.toString(),
+        expiresIn: "15m",
+        issuer: "blogna-api",
+        audience: "blogna",
+        algorithm: "HS256"
+      }
+    );
+    res.cookie('session', token, {
+      maxAge: 60 * 15 * 1000, // 15m in ms
+      httpOnly: true,
+      sameSite: 'lax',
+      secure: process.env.NODE_ENV === 'production' // only require https in prod
+    })
+    return res.json({ msg: 'successfully logged in'});
   }
   
   return res.status(401).json({msg: 'incorrect email or password'});
