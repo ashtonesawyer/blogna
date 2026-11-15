@@ -7,11 +7,11 @@ const validate = function validate(req, res, next) {
   }
 
   return res.status(400).json({
-    errors: errors.array().map(err => ({
+    errors: errors.array().map((err) => ({
       field: err.path,
-      message: err.msg
-    }))
+      message: err.msg,
+    })),
   });
 };
 
-export default validate
+export default validate;

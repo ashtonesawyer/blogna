@@ -11,8 +11,8 @@ const router = new Router();
 
 dotenv.config();
 
-const DUMMY_HASH = argon2.hash('nope');
-const { JWT_SECRET } = process.env; 
+const DUMMY_HASH = argon2.hash('nope'); // always check passwd to prevent timing attacks
+const { JWT_SECRET } = process.env;
 
 if (!JWT_SECRET) {
   throw new Error('JWT secret not configured');
@@ -22,10 +22,11 @@ router.post('/register', registerRules, validate, async (req, res) => {
   const { email, password, fullname } = matchedData(req);
 
   const hash = await argon2.hash(password);
-  
+
   try {
-    await db('users').insert({email, 'passwd_hash': hash, fullname});
-  } catch(err) {
+    // eslint-disable-next-line camelcase
+    await db('users').insert({ email, passwd_hash: hash, fullname });
+  } catch (err) {
     console.log(err);
   }
 
@@ -35,32 +36,28 @@ router.post('/register', registerRules, validate, async (req, res) => {
 router.post('/login', loginRules, validate, async (req, res) => {
   const { email, password } = matchedData(req);
 
-  const user = await db('users').select('id', 'passwd_hash').where({email}).first();
+  const user = await db('users').select('id', 'passwd_hash').where({ email }).first();
   const hash = user?.passwd_hash ?? DUMMY_HASH;
   const authd = await argon2.verify(hash, password);
 
   if (authd && user) {
-    const token = jwt.sign(
-      {},
-      JWT_SECRET,
-      {
-        subject: user.id.toString(),
-        expiresIn: "15m",
-        issuer: "blogna-api",
-        audience: "blogna",
-        algorithm: "HS256"
-      }
-    );
+    const token = jwt.sign({}, JWT_SECRET, {
+      subject: user.id.toString(),
+      expiresIn: '15m',
+      issuer: 'blogna-api',
+      audience: 'blogna',
+      algorithm: 'HS256',
+    });
     res.cookie('session', token, {
       maxAge: 60 * 15 * 1000, // 15m in ms
       httpOnly: true,
       sameSite: 'lax',
-      secure: process.env.NODE_ENV === 'production' // only require https in prod
-    })
-    return res.json({ msg: 'successfully logged in'});
+      secure: process.env.NODE_ENV === 'production', // only require https in prod
+    });
+    return res.json({ msg: 'successfully logged in' });
   }
-  
-  return res.status(401).json({msg: 'incorrect email or password'});
+
+  return res.status(401).json({ msg: 'incorrect email or password' });
 });
 
 router.post('/logout', (req, res) => {
