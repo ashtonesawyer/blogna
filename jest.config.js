@@ -3,6 +3,8 @@
  * https://jestjs.io/docs/configuration
  */
 
+process.env.JWT_SECRET = 'test-secret';
+
 /** @type {import('jest').Config} */
 const config = {
   // All imported modules in your tests should be mocked automatically
