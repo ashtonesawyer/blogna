@@ -18,6 +18,6 @@ const authJWT = function authenticateJWT(req, res, next) {
     req.user = decodedUser;
     next();
   });
-}
+};
 
 export default authJWT;
