@@ -5,6 +5,7 @@ import * as argon2 from 'argon2';
 import * as dotenv from 'dotenv';
 import db from '../db.js';
 import validate from '../middleware/validator.js';
+import authJWT from '../middleware/authJWT.js';
 import { registerRules, loginRules } from '../middleware/authRules.js';
 
 const router = new Router();
@@ -73,12 +74,15 @@ router.post('/logout', (req, res) => {
     sameSite: 'lax',
     secure: process.env.NODE_ENV === 'production',
   });
-  
+
   return res.status(200).json({ msg: 'successfully logged out' });
 });
 
-router.get('/me', (req, res) => {
-  return res.json({ msg: 'todo: return details about logged in user' });
+router.get('/me', authJWT, async (req, res) => {
+  const uid = Number(req.user.sub);
+  const user = await db('users').select('id', 'email', 'fullname').where('id', uid).first();
+
+  return res.status(200).json({ user });
 });
 
 export default router;
