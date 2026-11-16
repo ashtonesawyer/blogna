@@ -61,7 +61,20 @@ router.post('/login', loginRules, validate, async (req, res) => {
 });
 
 router.post('/logout', (req, res) => {
-  return res.json({ msg: 'todo: log out of logged in account' });
+  const token = req.cookies.session;
+
+  if (!token) {
+    return res.status(200).json({ msg: 'already logged out' });
+  }
+
+  // clearCookie options must match options cookie was set with
+  res.clearCookie('session', {
+    httpOnly: true,
+    sameSite: 'lax',
+    secure: process.env.NODE_ENV === 'production',
+  });
+  
+  return res.status(200).json({ msg: 'successfully logged out' });
 });
 
 router.get('/me', (req, res) => {
