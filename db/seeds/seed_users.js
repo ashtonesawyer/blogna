@@ -7,7 +7,7 @@ export const seed = async function seed(knex) {
   await knex('users').del();
 
   await knex('users').insert([
-    // passed => 'testpassword'
+    // passwd => 'testpassword'
     {
       id: 1,
       email: 'ryan@gosling.com',

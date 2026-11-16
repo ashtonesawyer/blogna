@@ -12,7 +12,7 @@ const router = new Router();
 
 dotenv.config();
 
-const DUMMY_HASH = argon2.hash('nope'); // always check passwd to prevent timing attacks
+const DUMMY_HASH = await argon2.hash('nope'); // always check passwd to prevent timing attacks
 const { JWT_SECRET } = process.env;
 
 if (!JWT_SECRET) {
@@ -29,6 +29,7 @@ router.post('/register', registerRules, validate, async (req, res) => {
     await db('users').insert({ email, passwd_hash: hash, fullname });
   } catch (err) {
     console.log(err);
+    return res.status(500).json({ msg: 'unable to register user' });
   }
 
   return res.status(201).json({ msg: 'user registered' });
@@ -81,6 +82,10 @@ router.post('/logout', (req, res) => {
 router.get('/me', authJWT, async (req, res) => {
   const uid = Number(req.user.sub);
   const user = await db('users').select('id', 'email', 'fullname').where('id', uid).first();
+
+  if (!user) {
+    return res.status(404).json({ msg: 'user not found' });
+  }
 
   return res.status(200).json({ user });
 });
