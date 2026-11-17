@@ -5,10 +5,21 @@ import PostPreview from './components/PostPreview';
 import SearchBar from './components/SearchBar';
 import Sidebar from './components/Sidebar';
 import WritePost from './components/WritePost';
+import Login from './components/Login';
 
 const App = function App() {
   // get URL path
   const page = window.location.pathname;
+
+  // get login page if url path /login
+  if (page === '/login') {
+    return (
+      <>
+        <Navbar />
+        <Login />
+      </>
+    );
+  }
 
   // get writing page if url path /write
   if (page === '/write') {
