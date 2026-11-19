@@ -17,11 +17,10 @@ const WritePost = function WritePost({ post = null, onSave }) {
     // prevent page from refreshing when submitting form
     e.preventDefault();
 
-    // check if the form is valid
-    const isValid = e.currentTarget.checkValidity();
     setValidated(true);
 
-    if (!isValid) {
+    // ensure title/content are not empty
+    if (title.trim() === '' || content.trim() === '') {
       return;
     }
 
@@ -41,7 +40,7 @@ const WritePost = function WritePost({ post = null, onSave }) {
     <div className="container mt-4">
       <h2>{isEditing ? 'Edit Post' : 'Write a Post'}</h2>
 
-      <form noValidate className={validated ? 'was-validated' : ''} onSubmit={handlePublish}>
+      <form noValidate onSubmit={handlePublish}>
         {/* set title of post */}
         <div className="mb-3">
           <label htmlFor="postTitle" className="form-label">
@@ -51,11 +50,14 @@ const WritePost = function WritePost({ post = null, onSave }) {
           <input
             type="text"
             id="postTitle"
-            className="form-control"
+            className={`form-control ${
+              validated && title.trim() !== '' ? 'is-valid' : ''
+            } ${validated && title.trim() === '' ? 'is-invalid' : ''}`}
             placeholder="Enter your post title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             required
+            pattern=".*\S+.*"
           />
           <div className="invalid-feedback">Please enter a post title.</div>
         </div>
@@ -68,7 +70,9 @@ const WritePost = function WritePost({ post = null, onSave }) {
 
           <textarea
             id="postContent"
-            className="form-control"
+            className={`form-control ${
+              validated && content.trim() !== '' ? 'is-valid' : ''
+            } ${validated && content.trim() === '' ? 'is-invalid' : ''}`}
             rows="10"
             placeholder="Start writing your post..."
             value={content}
