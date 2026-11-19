@@ -6,8 +6,10 @@ export const registerRules = [
     .trim()
     .notEmpty()
     .withMessage('Email is required')
+    .bail()
     .isEmail()
     .withMessage('Please provide a valid email address')
+    .bail()
     .normalizeEmail()
     .custom(async (email) => {
       const exists = await db('users').select('id').where({ email }).first();
@@ -19,8 +21,10 @@ export const registerRules = [
   body('password')
     .notEmpty()
     .withMessage('Password is required')
+    .bail()
     .isLength({ min: 10, max: 100 })
     .withMessage('Password must be between 10 and 100 characters long')
+    .bail()
     .custom((value) => {
       if (!value.trim()) {
         throw new Error('Password cannot contain only whitespace');
@@ -41,15 +45,19 @@ export const loginRules = [
     .trim()
     .notEmpty()
     .withMessage('Email is required')
+    .bail()
     .isEmail()
     .withMessage('Please provide a valid email address')
+    .bail()
     .normalizeEmail(),
 
   body('password')
     .notEmpty()
     .withMessage('Password is required')
+    .bail()
     .isLength({ min: 10, max: 100 })
     .withMessage('Password must be between 10 and 100 characters long')
+    .bail()
     .custom((value) => {
       if (!value.trim()) {
         throw new Error('Password cannot contain only whitespace');
