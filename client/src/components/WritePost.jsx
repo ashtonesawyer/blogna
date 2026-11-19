@@ -12,10 +12,6 @@ const WritePost = function WritePost({ post = null, onSave }) {
   // if editing, change format of page
   const isEditing = post !== null;
 
-  // check that title and content are not empty
-  const titleValid = title.trim() !== '';
-  const contentValid = content.trim() !== '';
-
   // handle publishing or editing a post
   const handlePublish = function handlePublish(e) {
     // prevent page from refreshing when submitting form
@@ -25,8 +21,7 @@ const WritePost = function WritePost({ post = null, onSave }) {
     const isValid = e.currentTarget.checkValidity();
     setValidated(true);
 
-    // make sure title and content are valid
-    if (!titleValid || !contentValid) {
+    if (!isValid) {
       return;
     }
 
