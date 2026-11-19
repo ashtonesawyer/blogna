@@ -37,11 +37,6 @@ describe('POST /auth/register', () => {
 
     expect(res.body).toHaveProperty('errors');
     expect(res.body.errors).toHaveLength(1);
-    expect(res.body.errors[0]).toMatchObject({ field: 'email', message: 'Email is required'});
+    expect(res.body.errors[0]).toMatchObject({ field: 'email', message: 'Email is required' });
   });
-
-  it('requires a unique email', async () => {
-
-  })
-
 });
