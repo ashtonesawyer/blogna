@@ -5,15 +5,16 @@ const Login = function Login() {
   // store email and password entered by user
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [validated, setValidated] = useState(false);
 
   // handle login form submission
   const handleSubmit = function handleSubmit(e) {
     // prevent page from refreshing when submitting form
     e.preventDefault();
 
-    // make sure email and password are not empty
-    if (!email.trim() || !password.trim()) {
-      alert('Please enter your email and password.');
+    // check if the form is valid
+    if (!e.currentTarget.checkValidity()) {
+      setValidated(true);
       return;
     }
 
@@ -25,7 +26,7 @@ const Login = function Login() {
     <main className="container mt-5">
       <h2>Sign in</h2>
 
-      <form onSubmit={handleSubmit}>
+      <form noValidate className={validated ? 'was-validated' : ''} onSubmit={handleSubmit}>
         {/* email input */}
         <div className="mb-3">
           <label htmlFor="email" className="form-label">
@@ -38,7 +39,9 @@ const Login = function Login() {
             placeholder="Enter your email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            required
           />
+          <div className="invalid-feedback">Please enter a valid email.</div>
         </div>
 
         {/* password input */}
@@ -53,7 +56,9 @@ const Login = function Login() {
             placeholder="Enter your password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            required
           />
+          <div className="invalid-feedback">Please enter your password.</div>
         </div>
 
         {/* submit login information (backend added later) */}

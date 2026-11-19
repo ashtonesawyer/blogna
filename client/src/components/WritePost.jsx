@@ -7,23 +7,28 @@ const WritePost = function WritePost({ post = null, onSave }) {
   // store title/content of post OR use existing info for editing
   const [title, setTitle] = useState(post?.title ?? '');
   const [content, setContent] = useState(post?.content ?? '');
-  const [error, setError] = useState('');
+  const [validated, setValidated] = useState(false);
 
   // if editing, change format of page
   const isEditing = post !== null;
+
+  // check that title and content are not empty
+  const titleValid = title.trim() !== '';
+  const contentValid = content.trim() !== '';
 
   // handle publishing or editing a post
   const handlePublish = function handlePublish(e) {
     // prevent page from refreshing when submitting form
     e.preventDefault();
 
-    // make sure the title and content are not empty
-    if (title.trim() === '' || content.trim() === '') {
-      setError('Please enter a title and content before publishing.');
+    // check if the form is valid
+    const isValid = e.currentTarget.checkValidity();
+    setValidated(true);
+
+    // make sure title and content are valid
+    if (!titleValid || !contentValid) {
       return;
     }
-
-    setError('');
 
     // prepare the information for the backend
     const postData = {
@@ -40,7 +45,8 @@ const WritePost = function WritePost({ post = null, onSave }) {
   return (
     <div className="container mt-4">
       <h2>{isEditing ? 'Edit Post' : 'Write a Post'}</h2>
-      <form onSubmit={handlePublish}>
+
+      <form noValidate className={validated ? 'was-validated' : ''} onSubmit={handlePublish}>
         {/* set title of post */}
         <div className="mb-3">
           <label htmlFor="postTitle" className="form-label">
@@ -54,7 +60,9 @@ const WritePost = function WritePost({ post = null, onSave }) {
             placeholder="Enter your post title"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
+            required
           />
+          <div className="invalid-feedback">Please enter a post title.</div>
         </div>
 
         {/* set content of post */}
@@ -70,16 +78,13 @@ const WritePost = function WritePost({ post = null, onSave }) {
             placeholder="Start writing your post..."
             value={content}
             onChange={(e) => setContent(e.target.value)}
+            required
           />
+          <div className="invalid-feedback">Please enter post content.</div>
         </div>
-        {/* error handling */}
-        {error && (
-          <div className="alert alert-danger" role="alert">
-            {error}
-          </div>
-        )}
+
         {/* submit post information (connect onSave to backend later) */}
-        <button type="submit" className="btn btn-primary" disabled={!onSave}>
+        <button type="submit" className="btn btn-primary">
           {isEditing ? 'Save Changes' : 'Publish Post'}
         </button>
       </form>
