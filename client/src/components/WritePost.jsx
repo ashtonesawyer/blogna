@@ -7,28 +7,30 @@ const WritePost = function WritePost({ post = null, onSave }) {
   // store title/content of post OR use existing info for editing
   const [title, setTitle] = useState(post?.title ?? '');
   const [content, setContent] = useState(post?.content ?? '');
-  const [error, setError] = useState('');
+  const [validated, setValidated] = useState(false);
 
   // if editing, change format of page
   const isEditing = post !== null;
 
-  // Handle publishing or editing a post
-  const handlePublish = function handlePublish() {
-    // Make sure the title and content are not empty
+  // handle publishing or editing a post
+  const handlePublish = function handlePublish(e) {
+    // prevent page from refreshing when submitting form
+    e.preventDefault();
+
+    setValidated(true);
+
+    // ensure title/content are not empty
     if (title.trim() === '' || content.trim() === '') {
-      setError('Please enter a title and content before publishing.');
       return;
     }
 
-    setError('');
-
-    // Prepare the information for the backend
+    // prepare the information for the backend
     const postData = {
       title: title.trim(),
       content: content.trim(),
     };
 
-    // Pass the post information to the save function
+    // pass the post information to the save function
     if (onSave) {
       onSave(postData);
     }
@@ -38,47 +40,53 @@ const WritePost = function WritePost({ post = null, onSave }) {
     <div className="container mt-4">
       <h2>{isEditing ? 'Edit Post' : 'Write a Post'}</h2>
 
-      {/* set title of post */}
-      <div className="mb-3">
-        <label htmlFor="postTitle" className="form-label">
-          Post Title
-        </label>
+      <form noValidate onSubmit={handlePublish}>
+        {/* set title of post */}
+        <div className="mb-3">
+          <label htmlFor="postTitle" className="form-label">
+            Post Title
+          </label>
 
-        <input
-          type="text"
-          id="postTitle"
-          className="form-control"
-          placeholder="Enter your post title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        />
-      </div>
-
-      {/* set content of post */}
-      <div className="mb-3">
-        <label htmlFor="postContent" className="form-label">
-          Post Content
-        </label>
-
-        <textarea
-          id="postContent"
-          className="form-control"
-          rows="10"
-          placeholder="Start writing your post..."
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-        />
-      </div>
-      {/* error handling */}
-      {error && (
-        <div className="alert alert-danger" role="alert">
-          {error}
+          <input
+            type="text"
+            id="postTitle"
+            className={`form-control ${
+              validated && title.trim() !== '' ? 'is-valid' : ''
+            } ${validated && title.trim() === '' ? 'is-invalid' : ''}`}
+            placeholder="Enter your post title"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            required
+            pattern=".*\S+.*"
+          />
+          <div className="invalid-feedback">Please enter a post title.</div>
         </div>
-      )}
-      {/* button to save post (update onSave for backend) */}
-      <button type="button" className="btn btn-primary" onClick={handlePublish} disabled={!onSave}>
-        {isEditing ? 'Save Changes' : 'Publish Post'}
-      </button>
+
+        {/* set content of post */}
+        <div className="mb-3">
+          <label htmlFor="postContent" className="form-label">
+            Post Content
+          </label>
+
+          <textarea
+            id="postContent"
+            className={`form-control ${
+              validated && content.trim() !== '' ? 'is-valid' : ''
+            } ${validated && content.trim() === '' ? 'is-invalid' : ''}`}
+            rows="10"
+            placeholder="Start writing your post..."
+            value={content}
+            onChange={(e) => setContent(e.target.value)}
+            required
+          />
+          <div className="invalid-feedback">Please enter post content.</div>
+        </div>
+
+        {/* submit post information (connect onSave to backend later) */}
+        <button type="submit" className="btn btn-primary">
+          {isEditing ? 'Save Changes' : 'Publish Post'}
+        </button>
+      </form>
     </div>
   );
 };
