@@ -1,16 +1,27 @@
 import './App.css';
 import Hero from './components/Hero';
 import Navbar from './components/Navbar';
-import PostPreview from './components/PostPreview';
+import PostFeed from './components/PostFeed';
 import SearchBar from './components/SearchBar';
 import Sidebar from './components/Sidebar';
+import SinglePost from './components/SinglePost';
 import WritePost from './components/WritePost';
 
 const App = function App() {
-  // get URL path
+  //pathname excludes query strings.
+  //No affect on path.
   const page = window.location.pathname;
 
-  // get writing page if url path /write
+  //Match single-post URL, such as /posts/1 or /posts/12.
+  const postMatch = page.match(/^\/posts\/([^/]+)\/?$/);
+
+  //SinglePost supplies its own Navbar and main element.
+  //Key resets its state when a different post is opened.
+  if (postMatch) {
+    return <SinglePost key={postMatch[1]} postId={postMatch[1]} />;
+  }
+
+  //Preserve the existing writing page.
   if (page === '/write') {
     return (
       <>
@@ -21,13 +32,12 @@ const App = function App() {
       </>
     );
   }
+
   return (
     <>
-      {/* For header + links */}
       <Navbar />
 
       <main>
-        {/* Hero is for prominent sections of page. */}
         <Hero />
 
         <section id="stories">
@@ -37,20 +47,8 @@ const App = function App() {
           </div>
 
           <div className="content">
-            {/* For the PostCards, these are placeholders. We will update to retrieve information from the backend. */}
-            <PostPreview
-              author="Ryan Gosling"
-              date="November 1, 2026"
-              title="Life may be a beach, but YOU are KENOUGH"
-              description="Ways to take your mind of heartbreak, and embrace beach..."
-            />
-
-            <PostPreview
-              author="Ryan Gosling"
-              date="November 1, 2026"
-              title="Life may be a beach, but YOU are KENOUGH"
-              description="Ways to take your mind of heartbreak, and embrace beach..."
-            />
+            {/* Load real post summaries and their database IDs. */}
+            <PostFeed />
 
             <Sidebar />
           </div>

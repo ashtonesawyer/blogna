@@ -186,6 +186,13 @@ Equal dimensions and 50% boarder radius from the circle
   gap: 24px 32px;
 }
 
+/* Persere spacing between stories within left column */
+.post-list {
+  display: grid;
+  gap: 24px;
+  min-width: 0;
+}
+
 .post-card {
   grid-column: 1;
   min-width: 0;
@@ -221,9 +228,10 @@ Equal dimensions and 50% boarder radius from the circle
   font-weight: 700;
 }
 
+/* Entire post list = one grid cell */
 #sidebar {
   grid-column: 2;
-  grid-row: 1 / span 2;
+  grid-row: 1;
 }
 
 .write-callout {

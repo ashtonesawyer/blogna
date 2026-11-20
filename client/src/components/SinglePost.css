@@ -1,0 +1,189 @@
+/* Center the reading column within the existing homepage shell. */
+.single-post {
+  max-width: 900px;
+  padding-top: 40px;
+}
+
+.all-stories {
+  display: inline-block;
+  margin-bottom: 32px;
+  font-weight: 700;
+}
+
+.post-meta {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: var(--muted);
+}
+
+.post-meta strong,
+.post-meta time {
+  display: block;
+}
+
+.post-meta strong {
+  color: var(--heading);
+}
+
+.post-meta > div {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.post-avatar {
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--sage);
+  color: var(--forest);
+  font-weight: 700;
+}
+
+/* Akin the single-post mockup. */
+#single-post-title {
+  margin-block: 32px;
+  font-size: clamp(2.25rem, 4.8vw, 4rem);
+  line-height: 1.15;
+  overflow-wrap: anywhere;
+}
+
+/* Preserve paragraphs and line breaks entered through the writing form. */
+.post-body {
+  font-size: 1.125rem;
+  line-height: 1.9;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.post-comments {
+  margin-top: 48px;
+  padding-top: 32px;
+  border-top: 1px solid var(--border);
+}
+
+.conversation-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.conversation-heading h2 {
+  font-size: 2rem;
+}
+
+.conversation-heading span,
+.signed-in-reader,
+.comment-form small {
+  color: var(--muted);
+}
+
+.reader-comment {
+  padding-block: 24px;
+  border-bottom: 1px solid var(--border);
+}
+
+.comment-content {
+  margin-top: 12px;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.comment-form,
+.comment-login {
+  display: grid;
+  gap: 12px;
+  margin-top: 28px;
+}
+
+.comment-login {
+  max-width: 480px;
+  padding: 24px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+}
+
+.comment-login h3 {
+  font-size: 1.5rem;
+}
+
+.comment-form label,
+.comment-login label {
+  font-weight: 700;
+}
+
+.comment-form textarea,
+.comment-login input {
+  width: 100%;
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--heading);
+}
+
+.comment-form textarea {
+  resize: vertical;
+}
+
+.comment-form-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.single-post .blogna-button {
+  border: 0;
+  cursor: pointer;
+}
+
+.single-post :disabled,
+.nav-signout:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.post-error {
+  margin-block: 16px;
+  color: #9d3728;
+}
+
+.signed-in-reader {
+  margin-top: 24px;
+  overflow-wrap: anywhere;
+}
+
+.nav-signout {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--forest);
+  cursor: pointer;
+}
+
+.nav-user {
+  max-width: 14rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (max-width: 600px) {
+  .single-post {
+    padding-top: 28px;
+  }
+
+  .conversation-heading h2 {
+    font-size: 1.75rem;
+  }
+}
