@@ -39,4 +39,20 @@ describe('POST /auth/register', () => {
     expect(res.body.errors).toHaveLength(1);
     expect(res.body.errors[0]).toMatchObject({ field: 'email', message: 'Email is required' });
   });
+
+  it('allows spaces in the password', async () => {
+
+  })
+
+  it('requires a unique email', async () => {
+
+  })
+
+  it('fails registration if db insert fails', async () => {
+
+  })
+
+  it('returns 200 if registration is successful', async () => {
+
+  })
 });
