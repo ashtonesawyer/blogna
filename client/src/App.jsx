@@ -37,7 +37,7 @@ const App = function App() {
           </div>
 
           <div className="content">
-            {/* For the PostCards, these are placeholders. We will update to retrieve information from the backend. */}
+            {/* For the PostPreviews, these are placeholders. We will update to retrieve information from the backend. */}
             <PostPreview
               author="Ryan Gosling"
               date="November 1, 2026"
