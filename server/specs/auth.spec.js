@@ -286,6 +286,47 @@ describe('POST /auth/login', () => {
   });
 });
 
-describe('POST /auth/logout', () => {});
+describe('POST /auth/logout', () => {
+  it('returns 200 if already logged out', async () => {
+    const res = await request(app)
+      .post('/api/auth/logout')
+      .expect(200);
+
+    expect(res.body).toMatchObject({
+      msg: 'already logged out',
+    });
+
+    expect(res.headers['set-cookie']).toBeUndefined();
+  });
+
+  it('clears the session cookie if logged in', async () => {
+    const res = await request(app)
+      .post('/api/auth/logout')
+      .set('Cookie', 'session=some-valid-token')
+      .expect(200);
+
+    expect(res.body).toMatchObject({
+      msg: 'successfully logged out',
+    });
+
+    expect(res.headers['set-cookie']).toBeDefined();
+    expect(res.headers['set-cookie'][0]).toContain('session=;');
+    expect(res.headers['set-cookie'][0]).toMatch(/Expires=/i);
+  });
+
+  it('clears the session cookie even if the token is invalid', async () => {
+    const res = await request(app)
+      .post('/api/auth/logout')
+      .set('Cookie', 'session=invalid-token')
+      .expect(200);
+
+    expect(res.body).toMatchObject({
+      msg: 'successfully logged out',
+    });
+
+    expect(res.headers['set-cookie']).toBeDefined();
+    expect(res.headers['set-cookie'][0]).toContain('session=;');
+  });
+});
 
 describe('GET /auth/me', () => {});
