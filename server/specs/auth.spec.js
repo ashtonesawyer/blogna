@@ -151,9 +151,14 @@ describe('POST /auth/register', () => {
 
     expect(res.body).toBeDefined();
     expect(mockInsert).toHaveBeenCalled();
+    expect(mockInsert).not.toHaveBeenCalledWith({
+      email: 'alice@bob.com',
+      // eslint-disable-next-line camelcase
+      passwd_hash: 'testpassword',
+      fullname: undefined,
+    });
   });
 });
-
 
 describe('POST /auth/login', () => {
   it('requires email field', async () => {
@@ -299,9 +304,7 @@ describe('POST /auth/login', () => {
 
 describe('POST /auth/logout', () => {
   it('returns 200 if already logged out', async () => {
-    const res = await request(app)
-      .post('/api/auth/logout')
-      .expect(200);
+    const res = await request(app).post('/api/auth/logout').expect(200);
 
     expect(res.body).toMatchObject({
       msg: 'already logged out',
@@ -346,14 +349,12 @@ describe('GET /auth/me', () => {
     mockFirst.mockResolvedValue({
       id: 1,
       email: 'alice@bob.com',
-      fullname: 'Alice Bob'
+      fullname: 'Alice Bob',
     });
   });
 
   it('returns 401 if no session cookie exists', async () => {
-    await request(app)
-      .get('/api/auth/me')
-      .expect(401);
+    await request(app).get('/api/auth/me').expect(401);
 
     expect(mockVerifyJwt).not.toHaveBeenCalled();
     expect(mockFirst).not.toHaveBeenCalled();
@@ -364,10 +365,7 @@ describe('GET /auth/me', () => {
       throw new MockJsonWebTokenError('Invalid token');
     });
 
-    await request(app)
-      .get('/api/auth/me')
-      .set('Cookie', 'session=invalid-token')
-      .expect(401);
+    await request(app).get('/api/auth/me').set('Cookie', 'session=invalid-token').expect(401);
 
     expect(mockFirst).not.toHaveBeenCalled();
   });
@@ -377,10 +375,7 @@ describe('GET /auth/me', () => {
       throw new MockJsonWebTokenError('Invalid token');
     });
 
-    await request(app)
-      .get('/api/auth/me')
-      .set('Cookie', 'session=expired-token')
-      .expect(401);
+    await request(app).get('/api/auth/me').set('Cookie', 'session=expired-token').expect(401);
   });
 
   it('returns 200 if JWT is valid and user exists', async () => {
@@ -389,24 +384,25 @@ describe('GET /auth/me', () => {
       .set('Cookie', 'session=valid-token')
       .expect(200);
 
-    expect(mockVerifyJwt).toHaveBeenCalledWith('valid-token', process.env.JWT_SECRET, expect.any(Object));
+    expect(mockVerifyJwt).toHaveBeenCalledWith(
+      'valid-token',
+      process.env.JWT_SECRET,
+      expect.any(Object),
+    );
 
     expect(res.body).toMatchObject({
       user: {
         id: 1,
         email: 'alice@bob.com',
-        fullname: 'Alice Bob'
-      }
+        fullname: 'Alice Bob',
+      },
     });
   });
 
   it('returns 401 if user does not exist', async () => {
     mockFirst.mockResolvedValue(undefined);
 
-    await request(app)
-      .get('/api/auth/me')
-      .set('Cookie', 'session=valid-token')
-      .expect(404);
+    await request(app).get('/api/auth/me').set('Cookie', 'session=valid-token').expect(404);
   });
 
   it('does not return the password hash', async () => {
@@ -428,9 +424,6 @@ describe('GET /auth/me', () => {
   it('returns 500 if database query fails', async () => {
     mockFirst.mockRejectedValue(new Error('Database error'));
 
-    await request(app)
-      .get('/api/auth/me')
-      .set('Cookie', 'session=valid-token')
-      .expect(500);
+    await request(app).get('/api/auth/me').set('Cookie', 'session=valid-token').expect(500);
   });
 });
