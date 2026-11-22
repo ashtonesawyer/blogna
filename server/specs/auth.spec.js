@@ -12,6 +12,17 @@ jest.unstable_mockModule('argon2', () => ({
   hash: jest.fn(),
 }));
 
+const mockVerifyJwt = jest.fn();
+class MockJsonWebTokenError extends Error {}
+
+jest.unstable_mockModule('jsonwebtoken', () => ({
+  default: {
+    verify: mockVerifyJwt,
+    sign: jest.fn(),
+    JsonWebTokenError: MockJsonWebTokenError,
+  },
+}));
+
 export const mockSelect = jest.fn();
 export const mockWhere = jest.fn();
 export const mockFirst = jest.fn();
@@ -329,4 +340,97 @@ describe('POST /auth/logout', () => {
   });
 });
 
-describe('GET /auth/me', () => {});
+describe('GET /auth/me', () => {
+  beforeEach(() => {
+    mockVerifyJwt.mockReturnValue({ id: 1 });
+    mockFirst.mockResolvedValue({
+      id: 1,
+      email: 'alice@bob.com',
+      fullname: 'Alice Bob'
+    });
+  });
+
+  it('returns 401 if no session cookie exists', async () => {
+    await request(app)
+      .get('/api/auth/me')
+      .expect(401);
+
+    expect(mockVerifyJwt).not.toHaveBeenCalled();
+    expect(mockFirst).not.toHaveBeenCalled();
+  });
+
+  it('returns 401 if JWT is invalid', async () => {
+    mockVerifyJwt.mockImplementation(() => {
+      throw new MockJsonWebTokenError('Invalid token');
+    });
+
+    await request(app)
+      .get('/api/auth/me')
+      .set('Cookie', 'session=invalid-token')
+      .expect(401);
+
+    expect(mockFirst).not.toHaveBeenCalled();
+  });
+
+  it('returns 401 if JWT is expired', async () => {
+    mockVerifyJwt.mockImplementation(() => {
+      throw new MockJsonWebTokenError('Invalid token');
+    });
+
+    await request(app)
+      .get('/api/auth/me')
+      .set('Cookie', 'session=expired-token')
+      .expect(401);
+  });
+
+  it('returns 200 if JWT is valid and user exists', async () => {
+    const res = await request(app)
+      .get('/api/auth/me')
+      .set('Cookie', 'session=valid-token')
+      .expect(200);
+
+    expect(mockVerifyJwt).toHaveBeenCalledWith('valid-token', process.env.JWT_SECRET, expect.any(Object));
+
+    expect(res.body).toMatchObject({
+      user: {
+        id: 1,
+        email: 'alice@bob.com',
+        fullname: 'Alice Bob'
+      }
+    });
+  });
+
+  it('returns 401 if user does not exist', async () => {
+    mockFirst.mockResolvedValue(undefined);
+
+    await request(app)
+      .get('/api/auth/me')
+      .set('Cookie', 'session=valid-token')
+      .expect(404);
+  });
+
+  it('does not return the password hash', async () => {
+    mockFirst.mockResolvedValue({
+      id: 1,
+      email: 'alice@bob.com',
+      // eslint-disable-next-line camelcase
+      passwd_hash: 'hashedpassword',
+    });
+
+    const res = await request(app)
+      .get('/api/auth/me')
+      .set('Cookie', 'session=valid-token')
+      .expect(200);
+
+    expect(res.body.password).toBeUndefined();
+  });
+
+  it('returns 500 if database query fails', async () => {
+    mockFirst.mockRejectedValue(new Error('Database error'));
+
+    await request(app)
+      .get('/api/auth/me')
+      .set('Cookie', 'session=valid-token')
+      .expect(500);
+  });
+});
