@@ -20,6 +20,8 @@ const App = function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/write" element={<WritePost />} />
+        {/* placeholder until singlepost is finished */}
+        <Route path="/post/:postId" element={<Home/>} />
       </Routes>
     </>
   );
