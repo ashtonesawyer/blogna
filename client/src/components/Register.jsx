@@ -84,6 +84,8 @@ const Register = function Register() {
             placeholder="Enter your password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
+            minLength={10}
+            maxLength={100}
             required
           />
           <div className="invalid-feedback">Please enter your password.</div>
