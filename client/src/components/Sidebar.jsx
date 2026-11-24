@@ -12,6 +12,7 @@ const Sidebar = function Sidebar() {
 
       <section className="signup-callout" aria-labelledby="signup-title">
         <h3 id="signup-title">New here?</h3>
+        {/* link to registration page, change when we do react router */}
         <a href="/register">Create an account →</a>
         <p>Sign in to publish and join the conversation.</p>
       </section>

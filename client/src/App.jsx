@@ -1,72 +1,26 @@
+import { Routes, Route } from 'react-router';
 import './App.css';
-import Hero from './components/Hero';
+
 import Navbar from './components/Navbar';
-import PostPreview from './components/PostPreview';
-import SearchBar from './components/SearchBar';
-import Sidebar from './components/Sidebar';
+import Home from './components/Home';
 import WritePost from './components/WritePost';
 import Login from './components/Login';
+import Register from './components/Register';
 
+// main application for handling page navigation
 const App = function App() {
-  // get URL path
-  const page = window.location.pathname;
-
-  // get login page if url path /login
-  if (page === '/login') {
-    return (
-      <>
-        <Navbar />
-        <Login />
-      </>
-    );
-  }
-
-  // get writing page if url path /write
-  if (page === '/write') {
-    return (
-      <>
-        <Navbar />
-        <main>
-          <WritePost />
-        </main>
-      </>
-    );
-  }
   return (
     <>
-      {/* For header + links */}
+      {/* display navbar on every page */}
       <Navbar />
 
-      <main>
-        {/* Hero is for prominent sections of page. */}
-        <Hero />
-
-        <section id="stories">
-          <div className="stories-header">
-            <h2>Latest Stories</h2>
-            <SearchBar />
-          </div>
-
-          <div className="content">
-            {/* For the PostPreviews, these are placeholders. We will update to retrieve information from the backend. */}
-            <PostPreview
-              author="Ryan Gosling"
-              date="November 1, 2026"
-              title="Life may be a beach, but YOU are KENOUGH"
-              description="Ways to take your mind of heartbreak, and embrace beach..."
-            />
-
-            <PostPreview
-              author="Ryan Gosling"
-              date="November 1, 2026"
-              title="Life may be a beach, but YOU are KENOUGH"
-              description="Ways to take your mind of heartbreak, and embrace beach..."
-            />
-
-            <Sidebar />
-          </div>
-        </section>
-      </main>
+      {/* display the correct page based on URL */}
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/write" element={<WritePost />} />
+      </Routes>
     </>
   );
 };
