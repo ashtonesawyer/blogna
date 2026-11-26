@@ -17,6 +17,17 @@ export const patchRules = [
     .trim()
     .notEmpty()
     .withMessage('Content is required')
+    .bail(),
+  // .isLength({ max: 255 })
+];
+
+export const deleteRules = [
+  param('id')
+    .trim()
+    .notEmpty()
+    .withMessage('ID is required')
     .bail()
-    // .isLength({ max: 255 }) 
+    .isInt({ min: 1 })
+    .withMessage('ID must be a positive integer')
+    .bail(),
 ];
